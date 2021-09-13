@@ -29,7 +29,7 @@ class Controller extends BaseController
                 'id' => $i+1,
                 'category_id' => mt_rand(0, 4),
                 'title' => $faker->jobTitle(),
-                'description' => $faker->sentence(3),
+                'description' => "<strong>" . $faker->sentence(10) . "</strong>",
                 'author' => $faker->name(),
                 'created_at' => now()
             ] ;

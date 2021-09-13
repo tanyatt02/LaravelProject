@@ -19,14 +19,15 @@ class NewsController extends Controller
     {
         return view('news.indexCategory', [
             'newsList' => $this->getNewsCategory($category_id),
-            'category' => $category
+            'categoryList' => $this->categories
         ]);
     }
 
     public function show(int $id)
     {
         return view('news.show', [
-            'id' => $id
+            'id' => $id,
+            'categoryList' => $this->categories
         ]);
     }
 }

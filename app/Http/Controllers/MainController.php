@@ -8,6 +8,7 @@ class MainController extends Controller
 {
     public function menu()
     {
+        //dd(\DB::table('users')->get());
         return view('menu');
     }
 }
