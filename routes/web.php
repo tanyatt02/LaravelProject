@@ -40,6 +40,10 @@ Route::get('/news/{id}', [NewsController::class, 'show'])
 Route::get('/news/{category}/{id}', [NewsController::class, 'indexCategory'])
     ->where('id','\d+')
     ->name('news.indexCategory');
+Route::get('/news/comment', [NewsController::class, 'comment'])
+    ->name('news.comment');
+Route::get('/news/store', [NewsController::class, 'store'])
+    ->name('news.store');
 
 Route::get('/', [MainController::class, 'menu']);
 
