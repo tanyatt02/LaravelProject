@@ -5,6 +5,8 @@
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 Панель администратора
+                                <span><a href="{{ route('admin.categories.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+					                class="fas fa-plus fa-sm text-white-50"></i> Add category</a></span>
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
@@ -25,13 +27,14 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach($categoriesList as $key => $category)
+                                        @foreach($categoriesList as $category)
                                         <tr>
-                                            <td>{!! $key !!}</td>
-                                            <td>{!! $category !!}</td>
-                                            <td>{!! now()->format('d-m-Y') !!}</td>
+                                            <td>{!! $category->id !!}</td>
+                                            <td>{!! $category->title !!}</td>
+                                            <td>{!! $category->created_at !!}</td>
                                             <td>
-                                            <a href="">Ред.</a>
+                                                
+                                            <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
                                                      &nbsp;
                                                     <a href="">Уд.</a>
                                             </td>
