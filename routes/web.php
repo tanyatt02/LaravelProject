@@ -8,9 +8,11 @@ use App\Mail\HI;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\CommentController;
 
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,22 +30,29 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('news', AdminNewsController::class);
+    Route::resource('comments', AdminCommentController::class);
  });
 
  Route::get('/categories', [CategoryController::class, 'index'])
  ->name('categories');
  Route::get('/news', [NewsController::class, 'index'])
     ->name('news');
-Route::get('/news/{id}', [NewsController::class, 'show'])
+Route::get('/news/{news}', [NewsController::class, 'show'])
     ->where('id','\d+')
     ->name('news.show');
 Route::get('/news/{category}/{id}', [NewsController::class, 'indexCategory'])
     ->where('id','\d+')
     ->name('news.indexCategory');
-Route::get('/news/comment', [NewsController::class, 'comment'])
-    ->name('news.comment');
+// Route::post('/news/comment', [CommentController::class, 'create'])
+//     ->name('comment.create');
+//Route::post('/news/comment', [CommentController::class, 'store'])
+   // ->name('comment.store');
 Route::get('/news/store', [NewsController::class, 'store'])
     ->name('news.store');
+
+
+Route::resource('comment', CommentController::class);
+
 
 Route::get('/', [MainController::class, 'menu']);
 
