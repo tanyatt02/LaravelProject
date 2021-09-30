@@ -19,15 +19,13 @@ class Controller extends BaseController
 
     
     
-	protected function getNews(): Collection
-	{
-		$model = new News();
-		return $model->getNews();
-	}
+	// protected function getNews(): Collection
+	// {
+	// 	return News::get();
+	// }
 
-    protected function getCategories(): Collection
-	{
-		$model = new Category();
-		return $model->getCategories();
-	}
+    // protected function getCategories(): Collection
+	// {
+	// 	return Category::get();
+	// }
 }

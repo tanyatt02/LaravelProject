@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\News;
+use App\Models\Comment;
 
-class CategoryController extends Controller
+
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.index', [
-            'categoriesList' => Category::withCount('news')->get(),
-        ]);
+        //
     }
 
     /**
@@ -25,9 +24,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.categories.create');
+        $news_id = $request->news;
+        
+        return view('news.comment', ['news_id' => $news_id]);
     }
 
     /**
@@ -38,16 +39,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->news_id);
         $request->validate([
 			'title' => ['required', 'string', 'min:3']
 		]);
-        
-        $category = Category::create($request->only('title', 'description'));
+
+        $comment = Comment::create($request->only(['title', 'author', 'news_id','description']));
 
         
-        if( $category ) {
+        if( $comment ) {
 			return redirect()
-				->route('admin.categories.index')
+				->route('news.show',['news' => $request->news_id])
 				->with('success', 'messages.admin.news.create.success');
 		}
 
@@ -62,9 +64,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -73,9 +75,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        return view('admin.categories.edit', ['category' => $category]);
+        //
     }
 
     /**
@@ -85,21 +87,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        $category = $category->fill(
-			$request->only(['title', 'description'])
-		)->save();
-
-		if($category) {
-			return redirect()
-			    ->route('admin.categories.index')
-				->with('success', 'Запись успешно обновлена');
-		}
-
-		return back()
-			->with('error', 'Запись не была обновлена')
-			->withInput();
+        //
     }
 
     /**
@@ -108,7 +98,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
         //
     }

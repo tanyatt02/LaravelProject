@@ -4,43 +4,45 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
+use App\Models\Category;
+use App\Models\Comment;
+
+
+use Illuminate\Pagination\Paginator;
+
 
 class NewsController extends Controller
 {
     //
     public function index()
-    {   //dd($this->getNews());
-
-        
+    {   $paginator = new Paginator(News::orderBy('updated_at', 'desc'), config('news.paginate'));
+        $lastPage = News::count() / config('news.paginate') ;
         return view('news.index', [
-            'newsList' => $this->getNews(),
-            'categoryList' => $this->getCategories(),
+            'newsList' => News::orderBy('updated_at', 'desc')->with('category')->paginate(config('news.paginate')),
+            'categoryList' => Category::get(),
+            'paginator' => $paginator->withPath('/news'),//(News::orderBy('updated_at', 'desc'), config('news.paginate')),
+            'lastPage' => $lastPage,
         ]);
     }
 
     public function indexCategory(string $category, int $category_id)
     {
-        $model = new News();
+        $paginator = new Paginator(News::orderBy('updated_at', 'desc'), config('news.paginate'));
+        $lastPage = News::count() / config('news.paginate') ;
         return view('news.indexCategory', [
-            'newsList' => $model->getNewsCategory($category_id),
-            'categoryList' => $this->getCategories(),
+            'newsList' => News::where('category_id','=',$category_id)->orderBy('updated_at', 'desc')->with('category')->paginate(config('news.paginate')),//getNewsCategory($category_id),
+            'categoryList' => Category::get(),
+            'paginator' => $paginator->withPath('/news'),//(News::orderBy('updated_at', 'desc'), config('news.paginate')),
+            'lastPage' => $lastPage,
         ]);
     }
 
-    public function show(int $id)
+    public function show(News $news)
     {
-        $model = new News();
-        $news = $model->getNewsById($id);
-        dd($news);
-        // return view('news.show', [
-        //     'news' => $news->getNewsById($id),
-        //     'categoryList' => $this->getCategories(),
-        // ]);
+        return view('news.show', [
+            'news' => $news,
+            'categoryList' => Category::get(),
+            'commentsList' => Comment::where('news_id','=',$news->id)->orderBy('updated_at', 'desc')->with('news')->get(),
+        ]);
     }
 }
-// public function show(int $id)
-// 	{
-// 		return view('news.show', [
-// 			'id' => $id
-// 		]);
-// 	}

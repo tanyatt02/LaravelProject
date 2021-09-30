@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\News;
-use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Comment;
+use App\Models\News;
 use Illuminate\Pagination\Paginator;
 
-class NewsController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +18,10 @@ class NewsController extends Controller
     public function index()
     {
         $paginator = new Paginator(News::orderBy('updated_at', 'desc'), config('news.paginateAdmin'));
-        return view('admin.news.index', [
-            'newsList' => News::orderBy('updated_at', 'desc')->with('category')->paginate(config('news.paginateAdmin')),//$this->getNews()
-            'categoryList' => Category::get(),
-            'paginator' => $paginator->withPath('/admin/news'),
+        return view('admin.comments.index', [
+            'commentsList' => Comment::orderBy('updated_at', 'desc')->with('news')->paginate(config('news.paginateAdmin')),//$this->getNews()
+            'newsList' => news::get(),
+            'paginator' => $paginator->withPath('/admin/comments'),
         ]);
     }
 
@@ -32,13 +32,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        // $categories =  Category::all();
-        // return view('admin.news.create', [
-		// 	'categories' => $categories
-		// ]);
-        return view('admin.news.create', [
-            'categoriesList' => Category::get(),//$this->getCategories()
-        ]);
+        //
     }
 
     /**
@@ -49,24 +43,8 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-			'title' => ['required', 'string', 'min:3']
-		]);
-
-        $news = News::create($request->only(['title', 'author', 'category_id','description']));
-
-        
-        if( $news ) {
-			return redirect()
-				->route('admin.news.index')
-				->with('success', 'messages.admin.news.create.success');
-		}
-
-		return back()
-			->with('error', 'messages.admin.news.create.fail')
-			->withInput();
+        //
     }
-    
 
     /**
      * Display the specified resource.
@@ -74,7 +52,7 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(News $news)
+    public function show($id)
     {
         //
     }
@@ -85,9 +63,9 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(News $news)
+    public function edit(Comment $comment)
     {
-        return view('admin.news.edit', ['news' => $news, 'categoriesList' => Category::get(),]);
+        return view('admin.comments.edit', ['comment' => $comment, 'newsList' => News::get(),]);
     }
 
     /**
@@ -97,19 +75,19 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(Request $request, Comment $comment)
     {
         $request->validate([
 			'title' => ['required', 'string', 'min:3']
 		]);
         
-        $news = $news->fill(
-			$request->only(['title', 'author', 'category_id','description'])
+        $comment = $comment->fill(
+			$request->only(['title', 'author', 'description'])
 		)->save();
 
-		if($news) {
+		if($comment) {
 			return redirect()
-			    ->route('admin.news.index')
+			    ->route('admin.comments.index')
 				->with('success', 'Запись успешно обновлена');
 		}
 
@@ -117,13 +95,14 @@ class NewsController extends Controller
 			->with('error', 'Запись не была обновлена')
 			->withInput();
     }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(News $news)
+    public function destroy($id)
     {
         //
     }
