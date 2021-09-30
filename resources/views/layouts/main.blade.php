@@ -24,32 +24,23 @@
     <!-- Modernizr JS -->
     <script src="{{ asset('assets/js/modernizr-3.5.0.min.js') }}"></script>
 
+   <style>
+           btn_mange_pagging1 {
+                background:#f1f1f1;padding:12px 20px;color:#222;
+           }
+
+   </style> 
     
 </head>
 <body>
 <x-header></x-header>
 
-<div class="container-fluid pb-4 pt-4 paddding">
-    <div class="container paddding">
-        <div class="row mx-0">
+
             @yield('content')
             
-            <!--@yield('categories')-->
-            <!-- @include('news.categories') -->
             
-        </div>
-        <div class="row mx-0">
-            <div class="col-12 text-center pb-4 pt-4">
-                <a href="#" class="btn_mange_pagging"><i class="fa fa-long-arrow-left"></i>&nbsp;&nbsp; Previous</a>
-                <a href="#" class="btn_pagging">1</a>
-                <a href="#" class="btn_pagging">2</a>
-                <a href="#" class="btn_pagging">3</a>
-                <a href="#" class="btn_pagging">...</a>
-                <a href="#" class="btn_mange_pagging">Next <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp; </a>
-             </div>
-        </div>
-    </div>
-</div>
+            
+        
 
 <x-footer></x-footer>
 

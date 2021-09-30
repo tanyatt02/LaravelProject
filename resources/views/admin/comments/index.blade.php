@@ -4,9 +4,9 @@
 
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h3 mb-0 text-gray-800">Список новостей</h1>
-		<a href="{{ route('admin.news.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-					class="fas fa-plus fa-sm text-white-50"></i> Add new</a>
+		<h1 class="h3 mb-0 text-gray-800">Комментарии</h1>
+		{{-- <a href="{{ route('admin.news.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+					class="fas fa-plus fa-sm text-white-50"></i> Add new</a> --}}
 	</div>
 <div class="card mb-4">
                             <div class="card-header">
@@ -19,9 +19,10 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Title</th>
+                                            <th>Author</th>
+                                            <th>Title of New</th>
                                             <th>Description</th>
-                                            <th style="width: 10%;">Theme</th>
+                                            <th>New</th>
                                             <th>Date</th>
                                             <th>Control</th>
                                         </tr>
@@ -29,22 +30,24 @@
                                     <tfoot>
                                         <tr>
                                             <th style="width: 5%;">ID</th>
+                                            <th style="width: 10%;">Author</th>
                                             <th style="width: 10%;">Title</th>
                                             <th style="width: 25%;">Description</th>
-                                            <th style="width: 10%;">Theme</th>
+                                            <th style="width: 15%;">Title of New</th>
                                             <th style="width: 10%;">Date</th>
                                             <th style="width: 10%;">Control</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach($newsList as $news)
+                                        @foreach($commentsList as $comment)
                                         <tr>
-                                            <td>{!! $news->id !!}</td>
-                                            <td>{!! $news->title !!}</td>
-                                            <td>{!! $news->description !!}</td>
-                                            <td>{!! optional($news->category)->title !!}</td>
-                                            <td>{!! $news->updated_at->format('d M, Y h:i') !!}</td>
-                                            <td><a href="{{ route('admin.news.edit', ['news' => $news->id]) }}">Ред.</a>
+                                            <td>{!! $comment->id !!}</td>
+                                            <td>{!! $comment->author !!}</td>
+                                            <td>{!! $comment->title !!}</td>
+                                            <td>{!! $comment->description !!}</td>
+                                            <td>{!! optional($comment->news)->title !!}</td>
+                                            <td>{!! $comment->updated_at->format('d M, Y h:i') !!}</td>
+                                            <td><a href="{{ route('admin.comments.edit', ['comment' => $comment->id]) }}">Ред.</a>
                                                      &nbsp;
                                                     <a href="">Уд.</a>
                                             </td>
@@ -55,7 +58,7 @@
                                 </table>
                             </div>
                         </div>
-    {{ $newsList->links() }}
+    {{ $commentsList->links() }}
 @endsection
 
        

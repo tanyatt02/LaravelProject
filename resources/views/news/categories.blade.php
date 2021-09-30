@@ -5,8 +5,8 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="fh5co_tags_all">
-                    @foreach($categoryList as $key => $category)
-                    <a href="{{ route('news.indexCategory', ['category' => $category, 'id' => $key])  }}" class="fh5co_tagg">{{ $category }}</a>
+                    @foreach($categoryList as $category)
+                    <a href="{{ route('news.indexCategory', ['category' => $category->title, 'id' => $category->id])  }}" class="fh5co_tagg">{{ $category->title }}</a>
                         
                     @endforeach
                 </div>

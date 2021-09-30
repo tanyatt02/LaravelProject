@@ -1,43 +1,60 @@
 @extends('layouts.main')
 @section('content')
 
-<div id="fh5co-title-box"  data-stellar-background-ratio="0.5">
-    <img src="https://dummyimage.com/1100x500/777/fff" alt=""/>
-</div>
-<div id="fh5co-single-content" class="container-fluid pb-4 pt-4 paddding">
+<div class="container-fluid pb-4 pt-4 paddding"> 
     <div class="container paddding">
-        <div class="row mx-0">
-            <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+        <div class="row mx-0"> 
 
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla malesuada enim id enim congue
-                    
-                </p>
-                <p>
-                    Nulla tincidunt sit amet ligula interdum pulvinar. Sed nec volutpat enim. Praesent pretium
-                    
-                </p>
-                <p>
-                    Nam vehicula viverra quam, nec ornare ex convallis eget. Praesent pulvinar, justo at lacinia
-                    
-                </p>
-                <ul>
-                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam, modi!</li>
-                    <li>Ea iure at, debitis culpa perspiciatis suscipit laudantium a, expedita.</li>
-                    <li>Voluptate distinctio perspiciatis cum sed ipsum nisi accusantium a aut!</li>
-                    <li>Sed vel quo dignissimos, quaerat totam officia, deserunt provident minus.</li>
-                </ul>
-                <p>
-                    Maecenas consequat dictum aliquam. Praesent nec magna at ipsum facilisis dictum sit amet nec arcu.
-                    
-                </p>
+            <div id="fh5co-title-box"  data-stellar-background-ratio="0.5">
+                <img src="https://dummyimage.com/1100x500/777/fff" alt=""/>
             </div>
-            <!-- <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
+        <div id="fh5co-single-content" class="container-fluid pb-4 pt-4 paddding">
+            <div class="container paddding">
+                <div class="row mx-0">
+                    <div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+
+                        <p>
+                            TITLE: {{ $news->title }} 
+                    
+                        </p>
+                        <p>
+                            {{ $news->description }}
+                    
+                        </p>
+                        <div class="fh5co_consectetur" style="font-size: 10px;"><strong>Theme: </strong> {!! optional($news->category)->title !!}
+                        </div>
+                        <br><br>
+                        <p style='font-family: sans-serif;'> Комментарии:<br></p>
+                        @forelse($commentsList as $comment)
+                            <div class="row pb-4">
+                                {{-- <div class="col-md-5">
+                                    
+                                </div> --}}
+                                <div class="col-md-7 animate-box">
+                                    <a href=''>{{$comment->title}}<br></a>
+                                    </a> {{  $comment->created_at->format('d M, Y') }} 
+                                    <div class="fh5co_consectetur">{!! $comment->description !!}
+                                    </div>
+                                    <div class="fh5co_consectetur" style="font-size: 10px;"><strong>Author: </strong> {!! $comment->author !!}
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <p> Ваш комментарий будет первым </p>
+                        @endforelse
+                         <a href="{{ route('comment.create', ['news' => $news->id])  }}" class="fh5co_tagg">Ваш комментарий</a>
+                    </div>
+                   
+                    
                 
-                <div class="clearfix"></div> -->
-                @include('news.categories')
+                {{-- <div class="col-md-3 animate-box" data-animate-effect="fadeInRight">
                 
-            <!-- </div> -->
+                    <div class="clearfix"></div>  --}}
+                        @include('news.categories')
+                
+                    {{-- </div>
+                </div> --}}
+            </div>
         </div>
     </div>
 </div>

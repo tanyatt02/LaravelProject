@@ -8,6 +8,7 @@
                                 <span><a href="{{ route('admin.categories.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
 					                class="fas fa-plus fa-sm text-white-50"></i> Add category</a></span>
                             </div>
+                            @include('inc.message')
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
@@ -15,6 +16,7 @@
                                             <th>ID</th>
                                             <th>Title</th>
                                             <th>Date</th>
+                                            <th style="width: 5%;">Count of News</th>
                                             <th>Control</th>
                                         </tr>
                                     </thead>
@@ -23,6 +25,7 @@
                                             <th style="width: 10%;">ID</th>
                                             <th style="width: 55%;">Title</th>
                                             <th style="width: 15%;">Date</th>
+                                            <th style="width: 5%;">Count of News</th>
                                             <th style="width: 10%;">Control</th>
                                         </tr>
                                     </tfoot>
@@ -31,10 +34,10 @@
                                         <tr>
                                             <td>{!! $category->id !!}</td>
                                             <td>{!! $category->title !!}</td>
-                                            <td>{!! $category->created_at !!}</td>
-                                            <td>
-                                                
-                                            <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
+                                            <td>{!! $category->created_at->format('d M, Y') !!}</td>
+                                            <td>{!! $category->news_count !!}</td>
+                                            <td>    
+                                                <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
                                                      &nbsp;
                                                     <a href="">Уд.</a>
                                             </td>

@@ -3,19 +3,25 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link @if(request()->is('admin')) active @endif" href="index.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Панель управления
+                                Control Panel
                             </a>
                             <div class="sb-sidenav-menu-heading">-----------</div>
-                            <a class="nav-link" href="{{ route('admin.categories.index') }}">
+                            <a class="nav-link @if(request()->routeIs('admin.categories.*')) active @endif" href="{{ route('admin.categories.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
                                 Categories
                                 
                             </a>
-                            <a class="nav-link" href="{{ route('admin.news.index') }}">
+                            <a class="nav-link @if(request()->routeIs('admin.news.*')) active @endif" href="{{ route('admin.news.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
                                 News
+                                
+                            </a>
+
+                            <a class="nav-link @if(request()->routeIs('admin.comments.*')) active @endif" href="{{ route('admin.comments.index') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
+                                Comments
                                 
                             </a>
                             
