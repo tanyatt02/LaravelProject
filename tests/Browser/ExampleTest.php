@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class ExampleTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+    //use DatabaseMigrations;
     
     /**
      * A basic browser test example.
@@ -22,7 +22,7 @@ class ExampleTest extends DuskTestCase
                     ->type('title', 'ttt')
                     
                     ->press('Save')
-                    ->waitForLocation('admin/categories', 20);
+                    ->assertPathIs('/admin/categories');//waitForLocation('/admin/categories', 20);
         });
     }
 
@@ -35,7 +35,7 @@ class ExampleTest extends DuskTestCase
                     ->type('title', 't')
                     
                     ->press('Save')
-                    ->assertSee('Поле Заголовок необходимо заполнить!');
+                    ->assertSee('Количество символов в поле Заголовок должно быть не меньше 3.');
         });
     }
 }

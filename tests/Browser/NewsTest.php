@@ -20,4 +20,12 @@ class NewsTest extends DuskTestCase
                     ->assertSee('News');
         });
     }
+
+    // public function testExample2()
+    // {
+    //     $this->browse(function (Browser $browser) {
+    //         $browser->visit('/')
+    //                 ->assertSee('SQLSTATE');
+    //     });
+    // }
 }
