@@ -24,7 +24,7 @@
             <label for='description'>Description:</label>
             <textarea  class='form-control' name='description' id='description'>{{ old('description') }}
             </textarea>
-            <button type='submit' class='btn btn-success'>Save</button>
+            <button type='submit' class='btn btn-success' name='Save' id='Save'>Save</button>
         </div>
     </form>
 </div>

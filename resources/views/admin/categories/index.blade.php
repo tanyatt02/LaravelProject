@@ -39,7 +39,7 @@
                                             <td>    
                                                 <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
                                                      &nbsp;
-                                                    <a href="">Уд.</a>
+                                                     <a href="javascript:;" class="delete" rel="{{ $category->id }}">Уд.</a>
                                             </td>
   
                                        </tr>
@@ -49,5 +49,34 @@
                             </div>
                         </div>
 @endsection
+
+@push('js')
+	<script type="text/javascript">
+		$(function() {
+
+			$(".delete").on('click', function() {
+				var id = $(this).attr("rel");
+			    if(confirm("Подтверждаете удаление категории с #ID " + id)) {
+				  $.ajax({
+					type: "delete",
+					headers: {
+					   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					url: "/admin/categories/" + id,
+					success: function (response) {
+						alert("Категория успешно удалена");
+						console.log(response);
+						location.reload();
+					},
+					error: function (error) {
+						console.log(error);
+					}
+				});
+			   }
+			});
+		});
+	</script>
+@endpush
+   
 
         

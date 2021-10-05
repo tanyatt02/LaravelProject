@@ -12,6 +12,8 @@
         @method('put')
         <div class='form-group'>
             <p>{!! optional($comment->news)->title !!} </p>
+            <input type='text' class='form-control' name='news_id' id='news_id' value="{{ $news_id }}" hidden>
+            <label for='author'>Author:</label>
             <label for='title'>Title:</label>
             <input type='text' class='form-control' name='title' id='title' value="{{ $comment->title }}">
            

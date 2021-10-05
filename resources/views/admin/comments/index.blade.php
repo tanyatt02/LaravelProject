@@ -49,7 +49,7 @@
                                             <td>{!! $comment->updated_at->format('d M, Y h:i') !!}</td>
                                             <td><a href="{{ route('admin.comments.edit', ['comment' => $comment->id]) }}">Ред.</a>
                                                      &nbsp;
-                                                    <a href="">Уд.</a>
+                                                     <a href="javascript:;" class="delete" rel="{{ $comment->id }}">Уд.</a>
                                             </td>
   
                                        </tr>
@@ -60,5 +60,34 @@
                         </div>
     {{ $commentsList->links() }}
 @endsection
+
+@push('js')
+	<script type="text/javascript">
+		$(function() {
+
+			$(".delete").on('click', function() {
+				var id = $(this).attr("rel");
+			    if(confirm("Подтверждаете удаление комментария с #ID " + id)) {
+				  $.ajax({
+					type: "delete",
+					headers: {
+					   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					url: "/admin/comments/" + id,
+					success: function (response) {
+						alert("Комментарий успешно удален");
+						console.log(response);
+						location.reload();
+					},
+					error: function (error) {
+						console.log(error);
+					}
+				});
+			   }
+			});
+		});
+	</script>
+@endpush
+   
 
        
