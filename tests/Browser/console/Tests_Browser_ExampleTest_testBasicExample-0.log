@@ -1,0 +1,14 @@
+[
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/laravel.test\/js\/app.js 9:9292 Uncaught TypeError: Cannot read property 'dataset' of null",
+        "source": "javascript",
+        "timestamp": 1633433408412
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/laravel.test\/js\/app.js 9:9292 Uncaught TypeError: Cannot read property 'dataset' of null",
+        "source": "javascript",
+        "timestamp": 1633433411779
+    }
+]
