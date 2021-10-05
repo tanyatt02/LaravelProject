@@ -12,6 +12,10 @@ class Comment extends Model
     use HasFactory;
 
     protected $table = "comments";
+
+    public  function getTableName(){
+		return $this->table;
+	}
     
     protected $fillable = [
 	   'news_id', 'title', 'author', 'description',

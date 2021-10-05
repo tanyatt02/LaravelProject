@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\HTTP\Requests\CategoryRequest;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -16,7 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('admin.categories.index', [
-            'categoriesList' => Category::withCount('news')->get(),
+            'categoriesList' => Category::withCount('news')->orderBy('updated_at', 'desc')->get(),
         ]);
     }
 
@@ -36,23 +37,21 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $request->validate([
-			'title' => ['required', 'string', 'min:3']
-		]);
         
-        $category = Category::create($request->only('title', 'description'));
+        
+        $category = Category::create($request->validated());
 
         
         if( $category ) {
 			return redirect()
 				->route('admin.categories.index')
-				->with('success', 'messages.admin.news.create.success');
+				->with('success', __('messages.admin.categoris.create.success'));
 		}
 
 		return back()
-			->with('error', 'messages.admin.news.create.fail')
+			->with('error', __('messages.admin.categories.create.fail'))
 			->withInput();
     }
 
@@ -85,20 +84,20 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
         $category = $category->fill(
-			$request->only(['title', 'description'])
-		)->save();
+			$request->validated())
+		    ->save();
 
 		if($category) {
 			return redirect()
 			    ->route('admin.categories.index')
-				->with('success', 'Запись успешно обновлена');
+				->with('success', __('messages.admin.categoris.update.success'));
 		}
 
 		return back()
-			->with('error', 'Запись не была обновлена')
+			->with('error', __('messages.admin.categories.create.fail'))
 			->withInput();
     }
 
@@ -108,8 +107,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category, Request $request)
     {
-        //
+        if($request->ajax()) {
+            try {
+                $category->delete();
+                return response()->json(['message' => 'ok']);
+  
+            } catch (\Exception $e) {
+                \Log::error("Error delete news" . PHP_EOL, [$e]);
+                return response()->json(['message' => 'e.message'], 400);
+            }
+        }
     }
 }

@@ -16,7 +16,9 @@ class News extends Model
 	   'category_id', 'title', 'author', 'description'
    ];
 
-   
+   public  function getTableName(){
+		return $this->table;
+	}
 
    public function category(): BelongsTo
    {

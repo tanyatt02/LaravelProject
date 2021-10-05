@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\HTTP\Requests\CommentCreateRequest;
 use App\Models\News;
 use App\Models\Comment;
 
@@ -37,24 +38,22 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentCreateRequest $request)
     {
         //dd($request->news_id);
-        $request->validate([
-			'title' => ['required', 'string', 'min:3']
-		]);
+        
 
-        $comment = Comment::create($request->only(['title', 'author', 'news_id','description']));
+        $comment = Comment::create($request->validated());
 
         
         if( $comment ) {
 			return redirect()
 				->route('news.show',['news' => $request->news_id])
-				->with('success', 'messages.admin.news.create.success');
+				->with('success', __('messages.user.comment.create.success'));
 		}
 
 		return back()
-			->with('error', 'messages.admin.news.create.fail')
+			->with('error', __('messages.user.comment.create.fail'))
 			->withInput();
     }
 

@@ -13,7 +13,7 @@ class Category extends Model
 
 	
 
-    protected $table = "categories";//name_table
+    protected  $table = "categories";//name_table
 
 	protected $fillable = [
 		'title', 'description'
@@ -22,6 +22,10 @@ class Category extends Model
 	public function news(): HasMany
 	{
 		return $this->hasMany(News::class, 'category_id', 'id');
+	}
+
+	public  function getTableName(){
+		return $this->table;
 	}
 
 	// public function getCategories()

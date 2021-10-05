@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\HTTP\Requests\CommentUpdateRequest;
 use App\Models\Comment;
 use App\Models\News;
 use Illuminate\Pagination\Paginator;
@@ -65,7 +66,7 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-        return view('admin.comments.edit', ['comment' => $comment, 'newsList' => News::get(),]);
+        return view('admin.comments.edit', ['comment' => $comment, 'newsList' => News::get(),'news_id' => $comment->news_id]);
     }
 
     /**
@@ -75,24 +76,17 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(CommentUpdateRequest $request, Comment $comment)
     {
-        $request->validate([
-			'title' => ['required', 'string', 'min:3']
-		]);
-        
-        $comment = $comment->fill(
-			$request->only(['title', 'author', 'description'])
-		)->save();
-
-		if($comment) {
+        $comment = $comment->fill($request->validated())->save();
+		if( $comment ) {
 			return redirect()
-			    ->route('admin.comments.index')
-				->with('success', 'Запись успешно обновлена');
+				->route('admin.comments.index')
+				->with('success', __('messages.admin.comments.update.success'));
 		}
 
 		return back()
-			->with('error', 'Запись не была обновлена')
+			->with('error', __('messages.admin.comments.update.fail'))
 			->withInput();
     }
 
@@ -102,8 +96,17 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment, Request $request)
     {
-        //
+        if($request->ajax()) {
+            try {
+                $comment->delete();
+                return response()->json(['message' => 'ok']);
+  
+            } catch (\Exception $e) {
+                \Log::error("Error delete comment" . PHP_EOL, [$e]);
+                return response()->json(['message' => 'e.message'], 400);
+            }
+        }
     }
 }
